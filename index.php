@@ -10,13 +10,19 @@ switch ($request) {
         //echo $request;
         require __DIR__ . '/gkisu/src/views/login.php';
     break;
-    
     case '/main':
         require __DIR__ . '/gkisu/src/views/main.php';
     break;
-    case '/urpr':
-        require __DIR__ . '/views/reg_urpr2.php';
+    case '/usrregister':
+        require __DIR__ . '/gkisu/src/views/user-register.php';
     break;
+    case '/sermonSchedule':
+        require __DIR__ . '/gkisu/src/views/sermon-schedule.php';
+    break;
+ 
+
+
+
     case '/assets':
         require __DIR__ . '/views/reg_assets.php';
     break;

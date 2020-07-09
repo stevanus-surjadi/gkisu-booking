@@ -1,14 +1,14 @@
 <?php
 ini_set('display_errors', '1');
-include_once("db.inc.php");
+include_once($_SERVER['DOCUMENT_ROOT']. "/gkisu/src/models/db.inc.php");
 
-function getPasswd($email)
-{
+
+function isUserExist($email){
     $dbcon = dbconnect();
-    $sql = "SELECT passwd FROM ms_admin WHERE email = ?";
+    $sql = "SELECT count(email) AS ctr FROM ms_admin WHERE email = ?";
     try{
         $statement = $dbcon->prepare($sql);
-        $statement->bind_param('s',$email);
+        $statement->bind_param('s',$dbcon->real_escape_string($email));
         $statement->execute();
         $result = $statement->get_result();
     }
@@ -17,11 +17,33 @@ function getPasswd($email)
         $errMsg = array( "Errno"=> "{$dbcon->errno}", "Error"=>"{$dbcon->error}" );
         echo $errMsg;
     }
-    $outparse = $result->fetch_all(MYSQLI_ASSOC);
+    $outparse = $result->fetch_assoc();
     $statement->free_result();
     $statement->close();
     $dbcon->close();
-    return $outparse;
+    return $outparse['ctr'];
+}
+
+function getPasswd($email)
+{
+    $dbcon = dbconnect();
+    $sql = "SELECT passwd FROM ms_admin WHERE email = ?";
+    try{
+        $statement = $dbcon->prepare($sql);
+        $statement->bind_param('s',$dbcon->real_escape_string($email));
+        $statement->execute();
+        $result = $statement->get_result();
+    }
+    catch(Exception $e)
+    {
+        $errMsg = array( "Errno"=> "{$dbcon->errno}", "Error"=>"{$dbcon->error}" );
+        echo $errMsg;
+    }
+    $outparse = $result->fetch_assoc();
+    $statement->free_result();
+    $statement->close();
+    $dbcon->close();
+    return $outparse['passwd'];
 }
 
 function getSalt($email)
@@ -30,7 +52,7 @@ function getSalt($email)
     $sql = "SELECT shash FROM ms_admin WHERE email = ?";
     try{
         $statement = $dbcon->prepare($sql);
-        $statement->bind_param('s',$email);
+        $statement->bind_param('s',$dbcon->real_escape_string($email));
         $statement->execute();
         $result = $statement->get_result();
     }
@@ -39,12 +61,33 @@ function getSalt($email)
         $errMsg = array( "Errno"=> "{$dbcon->errno}", "Error"=>"{$dbcon->error}" );
         echo $errMsg;
     }
-    $outparse = $result->fetch_all(MYSQLI_ASSOC);
+    $outparse = $result->fetch_assoc();
     $statement->free_result();
     $statement->close();
     $dbcon->close();
-    return $outparse;
+    return $outparse['shash'];
 }
 
+function getName($email)
+{
+    $dbcon = dbconnect();
+    $sql = "SELECT loginID FROM ms_admin WHERE email = ?";
+    try{
+        $statement = $dbcon->prepare($sql);
+        $statement->bind_param('s', $dbcon->real_escape_string($email));
+        $statement->execute();
+        $result = $statement->get_result();
+    }
+    catch(Exception $e)
+    {
+        $errMsg = array( "Errno"=> "{$dbcon->errno}", "Error"=>"{$dbcon->error}" );
+        echo $errMsg;
+    }
+    $outparse = $result->fetch_assoc();
+    $statement->free_result();
+    $statement->close();
+    $dbcon->close();
+    return $outparse['loginID'];
+}
 
 ?>

@@ -1,26 +1,36 @@
 <?php
+date_default_timezone_set("Asia/Krasnoyarsk");
 ini_set('display_errors', '1');
 
-include_once("../models/login.inc.php");
+include_once($_SERVER['DOCUMENT_ROOT'] . '/gkisu/src/config/config.php');
+require_once(ABS_PATH . "/gkisu/src//models/login.inc.php");
 
-if(isset($_POST['actionLogin']) && strcmp(base64_decode($_POST['actionLogin']),"actionLogin") == 0) {
+
+if(isset($_POST['actionLogin']) && $_POST['actionLogin'] == 1) {
   $formPassword = $_POST['inputPassword'];
   $formEmail = $_POST['inputEmail'];
-  $dbPasswd = getPasswd($formEmail);
-  $dbSalt = getSalt($formEmail);
 
-  if(strcmp(hash('sha256',$formPassword.$dbSalt),$dbpasswd)==0) {
-    $_SESSION['isLogin'] = true;
-    $_SESSION['login']['email'] = $formEmail;
-    $_SESSION['lastActivity'] = time();
-    $_SESSION['timeout'] = 1*60*60;
-    header("Location: http://localhost:8080/main");
+  if(isUserExist($formEmail)==1){
+    $dbPasswd = getPasswd($formEmail);
+    $dbSalt = getSalt($formEmail);
+    $dbName = getName($formEmail);
+    if(strcmp(hash('sha256',$formPassword.$dbSalt),$dbPasswd)==0) {
+      session_start();
+      $_SESSION['name'] = $dbName;
+      $_SESSION['isLogin'] = true;
+      $_SESSION['login']['email'] = $formEmail;
+      $_SESSION['lastActivity'] = time();
+      $_SESSION['timeout'] = 1*60*60;
+      header("Location: http://localhost:8080/main");
+    }else{
+      $HTMLoutput = "<div class=\"alert alert-danger col-sm-12\" >Wrong username and/or password</div>";
+    }
   }
   else{
-
+    $HTMLoutput = "<div class=\"alert alert-danger col-sm-12\" >Wrong username - Not Found</div>";
   }
 }
-
+//echo $_SERVER['DOCUMENT_ROOT'];
 ?>
 
 <!DOCTYPE html>
@@ -72,7 +82,7 @@ if(isset($_POST['actionLogin']) && strcmp(base64_decode($_POST['actionLogin']),"
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Login Page</h1>
+            <h1>Login Page</h1> | <a href="/usrregister">Register</a>
           </div>
           
         </div>
@@ -83,8 +93,8 @@ if(isset($_POST['actionLogin']) && strcmp(base64_decode($_POST['actionLogin']),"
     <section class="content">
 
       <!-- Default box -->
-      <form class="form-horizontal" method="post" action="<?php echo $_SERVER['PHP_SELF'];?>">
-      <input type="hidden" name="actionLogin" id="actionLogin" value="<?php echo base64_encode("actionLogin");?>">
+      <form class="form-horizontal" method="post" action="<?php echo $_SERVER['REQUEST_URI'];?>" id="formLogin" name="formLogin">
+      <input type="hidden" name="actionLogin" id="actionLogin" value="0">
         <div class="card">
           <div class="card-header">
             <h3 class="card-title">Login</h3>
@@ -109,13 +119,14 @@ if(isset($_POST['actionLogin']) && strcmp(base64_decode($_POST['actionLogin']),"
           <!-- /.card-body -->
           <div class="card-footer">
             <div class="row col-sm-12">              
-              <button type="submit" class="btn btn-info float-right">Sign in</button>&nbsp;&nbsp;&nbsp;
-              <input type="reset" class="btn btn-default float-right" value="Clear"></input>
+              <button type="submit" class="btn btn-info float-right" id="signin">Sign in</button>&nbsp;&nbsp;&nbsp;
+              <input type="reset" class="btn btn-default float-right" id="reset" value="Clear"></input>
+            </div>
+            <div class="row mt-3">
+              <div class="alert alert-danger col-sm-12 collapse" id="displayError"></div>    
             </div>
             <div class="row">
-              <div class="alert alert-danger col-sm-12 collapse">
-                Alert Danger
-              </div>    
+              <?php echo isset($HTMLoutput) ? $HTMLoutput : ""; ?>
             </div>
           </div>
           <!-- /.card-footer-->
@@ -152,5 +163,37 @@ if(isset($_POST['actionLogin']) && strcmp(base64_decode($_POST['actionLogin']),"
 <script src="../../dist/js/adminlte.min.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="../../dist/js/demo.js"></script>
+
+<script>
+
+var myj = jQuery.noConflict();
+
+myj('document').ready(function(){
+
+  myj(document).on('submit','#formLogin' , function(e){
+    
+    let errIndex = 0;
+    let errMsg = "";
+
+    if(!myj('#inputEmail').val()){
+      errIndex++;
+      errMsg += "Invalid Email for login. Cannot be empty<br>";
+    }
+    
+    if(!myj('#inputPassword').val()){
+      errIndex++;
+      errMsg += "Invalid Password for login. Cannot be empty<br>";
+    }
+  
+    
+    if(errIndex==0) myj('#actionLogin').val('1');
+    else{
+      myj('#displayError').html(errMsg).show();
+      e.preventDefault();
+    }
+  })
+});
+
+</script>
 </body>
 </html>

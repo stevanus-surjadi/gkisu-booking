@@ -1,11 +1,10 @@
 <?php
 ini_set('display_errors', '1');
-
-include_once("../config/config.php");
+include_once($_SERVER['DOCUMENT_ROOT'] . "/gkisu/src/config/config.php");
 
 function dbconnect()
 {
-    $connect = new mysqli(dbhost,dbuser,dbpass,dbname,dbport);
+    $connect = new mysqli(dbhost,dbuser,dbpass,schema,dbport);
     if($connect->connect_error) die("MySQLi connection failed: ". $connect->connect_error);
     return $connect;
 }
