@@ -51,11 +51,17 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <div class="form-group row">
-                    <button type="submit" class="btn btn-primary">Save</button>
+                <div class="container">
+                    <div class="row float-right">
+                        <button type="submit" class="btn btn-primary">Save</button>
+                    </div>
                 </div>
-                <div class="form-group row mt-10">
-                    <div class="col-sm-12 collapse" id="displayStatus"></div>
+            </div>
+            <div class="modal-footer">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-12 collapse" id="displayStatus"></div>
+                    </div>
                 </div>
             </div>
 

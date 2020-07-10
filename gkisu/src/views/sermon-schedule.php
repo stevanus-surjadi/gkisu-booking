@@ -220,15 +220,15 @@ function formIsValidation(oTime,oStartDate,oEndDate)
     errIndex++;
     errMsg+="Schedule Name cannot be empty<br>";
   }
-  if(oStartDate.length==0){
+  if(typeof oStartDate === "undefined"){
     errIndex++;
     errMsg+="Start Date cannot be empty<br>";
   }
-  if(oEndDate.length==0){
+  if(typeof oEndDate === "undefined"){
     errIndex++;
     errMsg+="End Date cannot be empty<br>";
   }
-  if(oTime.length==0){
+  if(typeof oTime === "undefined"){
     errIndex++;
     errMsg+="Time cannot be empty<br>";
   }
@@ -238,7 +238,7 @@ function formIsValidation(oTime,oStartDate,oEndDate)
     return false;
   }else {
     //successMsg="New Schedule successfully saved";
-    //myj('#displayStatus').removeClass('alert-danger').addClass('alert-success').html(successMsg).show();
+    myj('#displayStatus').removeClass('alert-danger').hide();
     return true;
   }
 
@@ -291,22 +291,25 @@ myj(document).ready(function(){
       let oInterval = myj('#selectInterval').children('option:selected').val();
       let oScheduleName = myj('#scheduleName').val();
 
-      alert(oStartDate);
-
       let _bodyData = myj('#formSchedule').serializeArray();
       _bodyData.push( { name:"pickupStartDate", value: oStartDate},
                       { name:"pickupEndDate", value: oEndDate},
                       { name:"pickupTime", value:oTime}
        );
-
-      console.log(_bodyData);
-      //formValidation(oTime,oStartDate,oEndDate);
-      
+      //console.log(_bodyData);
       if(formIsValidation(oTime,oStartDate,oEndDate))
       {
+        let _action = "saveSchedule";
+        _bodyData.push( {name:"action", value:_action} );
+        
         myj.ajax({
+          type: "POST",
+          url: "/gkisu/src/models/sermon-schedule.inc.php",
+          data:  _bodyData,
+          success: function(data){
 
-        })
+          }
+        });
       }
       
 
