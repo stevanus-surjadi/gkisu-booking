@@ -119,22 +119,19 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <div class="row">
                 <div class="col-lg-12">
                     <div class="card">
+                        <div class="card-header">
+                          <div class="row">
+                            <div class="col-sm-6">
+                              <button type="button" class="btn btn-primary float-left" data-toggle="modal" data-target="#create-schedule-modal" id="btn-createSchedule">
+                                Create Schedule(s)
+                              </button>
+                            </div>
+                          </div>
+                          <?php require_once(ABS_PATH . "/gkisu/src/modal/sermon-schedule.modal.php"); ?>
+                        </div>
                         <div class="card-body">
-                            <div class="form-group row">
-                                <label for="scheduleName" class="col-sm-2 col-form-label">Schedule Name</label>
-                                <div class="col-sm-3">
-                                    <input type="text" name="scheduleName" id="scheduleName" class="form-control">
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label for="pickupDate" class="col-sm-2 col-form-label">Pickup Date</label>
-                                <div class="input-group date col-sm-3" id="pickupDate" data-target-input="nearest">
-                                    <input type="text" class="form-control datetimepicker-input" data-target="#pickupDate"/>
-                                    <div class="input-group-append" data-target="#pickupDate" data-toggle="datetimepicker">
-                                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                                    </div>
-                                </div>
-                            </div>
+                            <table id="sermon-schedule">
+                            </table>
 
                         </div>
                         <div class="card-footer">
@@ -212,12 +209,110 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
 var myj = jQuery.noConflict();
 
-myj('#pickupDate').datetimepicker({
-    format: 'L'
-});
+function formIsValidation(oTime,oStartDate,oEndDate)
+{
+  let errIndex = 0;
+  let errMsg = "";
+  
+  //alert(oStartDate.length);
+
+  if(!myj('#scheduleName').val()){
+    errIndex++;
+    errMsg+="Schedule Name cannot be empty<br>";
+  }
+  if(oStartDate.length==0){
+    errIndex++;
+    errMsg+="Start Date cannot be empty<br>";
+  }
+  if(oEndDate.length==0){
+    errIndex++;
+    errMsg+="End Date cannot be empty<br>";
+  }
+  if(oTime.length==0){
+    errIndex++;
+    errMsg+="Time cannot be empty<br>";
+  }
+
+  if(errIndex!=0){
+    myj('#displayStatus').addClass('alert alert-danger').html(errMsg).show();
+    return false;
+  }else {
+    //successMsg="New Schedule successfully saved";
+    //myj('#displayStatus').removeClass('alert-danger').addClass('alert-success').html(successMsg).show();
+    return true;
+  }
+
+}
 
 myj(document).ready(function(){
+
+  myj(document).on('show.bs.modal',function(){
+    myj('#create-schedule-modal').modal('handleUpdate');
+  })
+
+  myj(document).on('shown.bs.modal',function(){
+    //alert("modal shown completed");
+    //init BS DateTimePicker
+    //myj('#create-schedule-modal').modal('handleUpdate');
     
+    myj('#pickupStartDate, #pickupEndDate').datetimepicker({
+        format: 'DD-MM-YYYY',
+        useCurrent: false
+        //dateFormat: 'dd-mm-yyyy'
+    });
+
+    myj('#pickupTime').datetimepicker({
+      inline: true,
+      format: 'HH:mm:ss'
+      //timeFormat: 'HH:mm'
+    });
+
+    myj('#pickupStartDate').on('change.datetimepicker',function(e){
+      myj('#pickupEndDate').datetimepicker('minDate',e.date);
+    });
+
+    myj('#pickupEndDate').on('change.datetimepicker',function(e){
+      myj('#pickupStartDate').datetimepicker('maxDate',e.date);
+    });
+
+    myj('#pickupTime').datetimepicker({
+      format: 'LT'
+    });
+
+    //hide loader bar
+    myj('#modalLoaderStatus').hide();
+
+    myj('#formSchedule').on('submit',function(e){
+      e.preventDefault();
+
+      let oStartDate = myj('#pickupStartDate').data('date');
+      let oEndDate = myj('#pickupEndDate').data('date');
+      let oTime = myj('#pickupTime').data('date');
+      let oInterval = myj('#selectInterval').children('option:selected').val();
+      let oScheduleName = myj('#scheduleName').val();
+
+      alert(oStartDate);
+
+      let _bodyData = myj('#formSchedule').serializeArray();
+      _bodyData.push( { name:"pickupStartDate", value: oStartDate},
+                      { name:"pickupEndDate", value: oEndDate},
+                      { name:"pickupTime", value:oTime}
+       );
+
+      console.log(_bodyData);
+      //formValidation(oTime,oStartDate,oEndDate);
+      
+      if(formIsValidation(oTime,oStartDate,oEndDate))
+      {
+        myj.ajax({
+
+        })
+      }
+      
+
+    })
+
+  })
 })
 
 

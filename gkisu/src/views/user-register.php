@@ -178,8 +178,6 @@ function validateForm()
   else return true;
 }
 
-
-
 myj('document').ready(function(){
 
   myj(document).on('submit','#formRegister',function(e) {
@@ -192,7 +190,7 @@ myj('document').ready(function(){
       _action = "registerUser";
       _bodydata = myj('#formRegister').serializeArray();
       _bodydata.push( {name:"action", value:_action} );
-      console.log(_bodydata);
+      //console.log(_bodydata);
       myj.ajax({
         type: "POST",
         url: "/gkisu/src/models/register.inc.php",
