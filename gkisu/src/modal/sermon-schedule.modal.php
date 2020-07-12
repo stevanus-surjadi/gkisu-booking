@@ -42,6 +42,12 @@
                     </div>
                 </div>
                 <div class="form-group row">
+                    <label for="inputCapacity" class="col-sm-2 col-form-label">Capacity</label>
+                    <div class="col-sm-3">
+                        <input type="number" name="inputCapacity" id="inputCapacity" class="form-control">
+                    </div>
+                </div>
+                <div class="form-group row">
                     <label for="selectInterval" class="col-sm-2 col-form-label">Interval</label>
                     <div class="col-sm-3">
                         <select class="form-control" name="selectInterval" id="selectInterval">

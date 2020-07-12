@@ -13,14 +13,21 @@ switch ($request) {
     case '/main':
         require __DIR__ . '/gkisu/src/views/main.php';
     break;
-    case '/usrregister':
+    case '/usrRegister':
         require __DIR__ . '/gkisu/src/views/user-register.php';
+    break;
+    case '/usrRegisterLogin':
+        require __DIR__ . '/gkisu/src/views/user-register-aside.php';
     break;
     case '/sermonSchedule':
         require __DIR__ . '/gkisu/src/views/sermon-schedule.php';
     break;
- 
-
+    case '/bookValidation':
+        require __DIR__ . '/gkisu/src/views/booking-validation.php';
+    break;
+    case '/logout':
+        require __DIR__ . '/gkisu/src/inc/logout.inc.php';
+    break;
 
 
     case '/assets':

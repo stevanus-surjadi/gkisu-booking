@@ -8,7 +8,7 @@
     </a>
     <ul class="nav nav-treeview">
         <li class="nav-item " id="userRegistration">
-            <a href="reg_entitiesdivision" class="nav-link">
+            <a href="/usrRegisterLogin" class="nav-link">
                 <i class="fas fa-genderless nav-icon"></i>
                 <p>User Registration</p>
             </a>
@@ -44,7 +44,7 @@
     </a>
     <ul class="nav nav-treeview">
         <li class="nav-item" id="bookValidation">
-            <a href="bookValidation" class="nav-link">
+            <a href="/bookValidation" class="nav-link">
                 <i class="fas fa-genderless nav-icon"></i>
                 <p>Booking Validation</p>
             </a>
@@ -73,10 +73,16 @@ myj(document).ready(function(){
     let web = arr[arr.length-1].toString();
     //console.log(web);
     //set menu active
-    if(web === "usrRegistration")
+    if(web === "usrRegister")
     {
         myj('#registration').addClass('active menu-open');
         myj('#usrRegistration > a').addClass('active');
+    }
+
+    if(web === "sermonSchedule")
+    {
+        myj('#setup').addClass('active menu-open');
+        myj('#setupSermonSchedule > a').addClass('active');
     }
 
     if(web === "bookValidation")

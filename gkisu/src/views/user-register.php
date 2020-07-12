@@ -1,15 +1,7 @@
 <?php
-
 date_default_timezone_set("Asia/Krasnoyarsk");
 ini_set('display_errors', '1');
-
 include_once($_SERVER['DOCUMENT_ROOT'] . '/gkisu/src/config/config.php');
-
-//var_dump($_SERVER);
-if(isset($_POST['actionRegister']) && $_POST['actionRegister']==1){
-
-}
-
 ?>
 
 <!DOCTYPE html>
@@ -33,6 +25,10 @@ if(isset($_POST['actionRegister']) && $_POST['actionRegister']==1){
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
 </head>
 <body class="hold-transition register-page">
+
+
+
+
 <div class="register-box">
   <div class="register-logo">
     <a href="https://www.gkisuryautama.org"><b>GKI</b>Surya Utama</a>

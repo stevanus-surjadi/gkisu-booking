@@ -1,10 +1,10 @@
 <?php
 date_default_timezone_set("Asia/Krasnoyarsk");
 ini_set('display_errors', '1');
-
 include_once($_SERVER['DOCUMENT_ROOT'] . '/gkisu/src/config/config.php');
 require_once(ABS_PATH . "/gkisu/src//models/login.inc.php");
 
+if(isset($_SESSION)) session_destroy();
 
 if(isset($_POST['actionLogin']) && $_POST['actionLogin'] == 1) {
   $formPassword = $_POST['inputPassword'];

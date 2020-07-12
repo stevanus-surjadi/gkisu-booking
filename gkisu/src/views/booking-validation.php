@@ -33,8 +33,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <!-- Datatables -->
   <link rel="stylesheet" href="plugins/datatables-bs4/css/dataTables.bootstrap4.css">
   <link rel="stylesheet" href="plugins/datatables-buttons/css/buttons.bootstrap4.css">
+  <!-- Select2-->
+  <link rel="stylesheet" href="plugins/select2/css/select2.min.css">
+  <link rel="stylesheet" href="plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
 
-  <title> GKI Surya Utama | Setup | Sermon Schedule </title>
+  <title> GKI Surya Utama | Setup | Booking Confirmation Validation </title>
 
   <!-- Font Awesome Icons -->
   <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
@@ -105,12 +108,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0 text-dark">Setup Sermon Schedule</h1>
+            <h1 class="m-0 text-dark">Booking Confirmation Validation</h1>
           </div><!-- /.col -->
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="/main">Home</a></li>
-              <li class="breadcrumb-item active">Sermon Schedule</li>
+              <li class="breadcrumb-item active">Booking Confirmation Validation</li>
             </ol>
           </div><!-- /.col -->
         </div><!-- /.row -->
@@ -125,37 +128,41 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <div class="row">
                 <div class="col-lg-12">
                     <div class="card">
-                        <div class="card-header">
-                          <div class="row">
-                            <div class="col-sm-6">
-                              <button type="button" class="btn btn-primary float-left" data-toggle="modal" data-target="#create-schedule-modal" id="btn-createSchedule">
-                                Create Schedule(s)
-                              </button>
+                        <form class="form-horizontal">
+                        <div class="card-header ">
+                          <div class="row form-group">
+                            <label for="pickupSermonDate" class="col-sm-3 col-form-label">Sermon Schedule</label>
+                            <div class="input-group date col-sm-3" id="pickupSermonDate" data-target-input="nearest">
+                                <input type="text" class="form-control datetimepicker-input" data-target="#pickupSermonDate" placeholder="Select Sermon Date"/>
+                                <div class="input-group-append" data-target="#pickupSermonDate" data-toggle="datetimepicker">
+                                    <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                </div>
                             </div>
                           </div>
-                          <?php require_once(ABS_PATH . "/gkisu/src/modal/sermon-schedule.modal.php"); ?>
+                          <div class="row form-group" id="containerSermonSchedule">
+                            <label for="selectSermonSchedule" class="col-sm-3 col-form-label">Select Sermon Schedule</label>
+                            <div class="col-sm-5">
+                                <select class="form-control select2bs4 select2-hidden-accessible"  style="width: 100%;!important" aria-hidden="true" id="selectSermonDateTime" name="selectSermonDateTime" data-placeholder="Select Sermon Date and Time">
+                                    <option></option>
+                                </select>
+                            </div>
+                          </div>
                         </div>
                         <div class="card-body">
-                            <Table id="sermonSchedule" class="table table-stripped table-hover table-bordered dt-responsive display" style="width=100%">
+                            <Table id="sermonBooking" class="table table-stripped table-hover table-bordered dt-responsive collapse" style="width=100%">
                               <tr>
-                                <th>Sermon ID</th>
+                                <th>BookingID</th>
                                 <th>Sermon Name</th>
-                                <th>Sermon Date Time</th>
-                                <th>Capacity</th>
-                                <th>Action</th>
+                                <th>Sermon Schedule</th>
+                                <th>Fullname</th>
+                                <th>Attendees</th>
+                                <th>Mobile</th>
                               </tr>
                             </Table>
-
                         </div>
+                        </form>
                         <div class="card-footer">
-                            <div class="row">
-                              <div class="col-sm-12">
-                                  <button type="submit" class="btn btn-default">submit</button>
-                              </div>
-                            </div>
-                            <div class="row mt-5">
-                              <div id="mainDisplayStatus" class="alert col-sm-12"></div>
-                            </div>
+
                         </div>
                     </div>
                 </div>
@@ -224,8 +231,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <!--Datatables-->
 <script src="plugins/datatables/jquery.dataTables.min.js"></script>
 <script src="plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+<!--Select2-->
+<script src="plugins/select2/js/select2.full.min.js"></script>
 <!--Controller Sermon Schedule-->
-<script src="gkisu/src/controllers/sermon-schedule.js"></script>
+<script src="gkisu/src/controllers/booking-validation.js"></script>
 <script>
 
 var myj = jQuery.noConflict();
@@ -234,72 +243,57 @@ var myj = jQuery.noConflict();
 
 myj(document).ready(function(){
 
-  myj(document).on('show.bs.modal',function(){
-    myj('#create-schedule-modal').modal('handleUpdate');
-  })
+  myj('#containerSermonSchedule').hide();
+  myj('#pickupSermonDate').datetimepicker({
+    format: 'DD-MM-YYYY',
+    useCurrent: false
+  });
+  
+  //=SELECT2 EVENTS=//
+  myj('#pickupSermonDate').on('change.datetimepicker', function(e){
+      myj('#containerSermonSchedule').show();
+      let oSermonDate = myj('#pickupSermonDate').data('date');
+      //console.log(oSermonDate);
+      initBookingValidationFunction().loadSelectSermonDateTime(oSermonDate);
+  });
+
+  myj('#selectSermonDateTime').on('change',function(){
+    //console.log(e.params.data);
+    myj('#sermonBooking').show();
+    let sermonID = myj('#selectSermonDateTime option:selected').val();
+    let sermonDateTime = myj('#selectSermonDateTime option:selected').text();
+    
+    let sermonData = [];
+    sermonData.push( { "sermonID":sermonID, "sermonDateTime":sermonDateTime });
+    //console.log(sermonData);
+    
+    if (myj.fn.DataTable.isDataTable('#sermonBooking') ) {
+        dtSermonBooking.destroy();
+    }
+    dtSermonBooking = initBookingValidationFunction().loadDataTableBookingConfirmation(sermonData);
+  });
+      
+
+  //=END SELECT2 EVENTS=/
 
   //=DATATABLES EVENTS=//
   
   myj(window).on('resize', function() { 
-    dtSermonSchedule.columns.adjust().draw();
+    dtSermonBooking.columns.adjust().draw();
   });
 
-  let dtSermonSchedule = initSermonScheduleFunction().displaySermonSchedule();
+  //let dtSermonSchedule = initSermonScheduleFunction().displaySermonSchedule();
 
-  dtSermonSchedule.on('click','#btnActionDelete', function(e){
-    e.preventDefault();
-    let rowRecord = dtSermonSchedule.row(myj(this).parents('tr')).data();
-    initSermonScheduleFunction().deleteSermonSchedule(rowRecord);
-
-
+  //dtSermonSchedule.on('click','#btnActionDelete', function(e){
+  //  e.preventDefault();
     
-  });
+  //});
 
   //=END DATATABLES EVENTS=//
 
-  //=MODAL EVENTS=//
+  //=Select2 EVENTS=//
 
-  myj(document).on('shown.bs.modal',function(){
-    //alert("modal shown completed");
-    //init BS DateTimePicker
-    //myj('#create-schedule-modal').modal('handleUpdate');
-    
-    myj('#pickupStartDate, #pickupEndDate').datetimepicker({
-        format: 'DD-MM-YYYY',
-        useCurrent: false
-        //dateFormat: 'dd-mm-yyyy'
-    });
-
-    myj('#pickupTime').datetimepicker({
-      inline: true,
-      format: 'HH:mm:ss'
-      //timeFormat: 'HH:mm'
-    });
-
-    myj('#pickupStartDate').on('change.datetimepicker',function(e){
-      myj('#pickupEndDate').datetimepicker('minDate',e.date);
-    });
-
-    myj('#pickupEndDate').on('change.datetimepicker',function(e){
-      myj('#pickupStartDate').datetimepicker('maxDate',e.date);
-    });
-
-    myj('#pickupTime').datetimepicker({
-      format: 'LT'
-    });
-
-    //hide loader bar
-    myj('#modalLoaderStatus').hide();
-
-    myj('#formSchedule').on('submit',function(e){
-      e.preventDefault();
-      initSermonScheduleFunction().saveSermonSchedule();
-    })
-  })
-  myj(document).on('hide.bs.modal',function(){
-    dtSermonSchedule.ajax.reload();
-  })
-  //=END MODAL EVENTS=//
+  //=END Select2 EVENTS=//
 })
 
 

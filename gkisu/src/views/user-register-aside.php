@@ -47,17 +47,16 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- Left navbar links -->
     <ul class="navbar-nav">
       <li class="nav-item">
-        <a class="nav-link" data-widget="pushmenu" href="/logout" role="button"><i class="fas fa-bars"></i></a>
+        <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
       </li>
     </ul>
+
+    <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
       <li class="nav-item">
           <a class="nav-link" href="/logout" ><i class="fas fa-power-off"></i>&nbsp;Logout</a>
       </li>
     </ul>
-
-    <!-- Right navbar links -->
-
   </nav>
   <!-- /.navbar -->
 
@@ -116,60 +115,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- /.content-header -->
 
     <!-- Main content -->
+    
     <div class="content">
       <div class="container-fluid">
-        <div class="row">
-          <div class="col-lg-6">
-            <div class="card">
-              <div class="card-header">
-                <div class="card-title id=chartBookingTitle1"></div>
-              </div>
-              <div class="card-body">
-                <canvas id="chartBooking1"></canvas>
-              </div>
-            </div>
 
-            <div class="card card-primary card-outline">
-              <div class="card-body">
-                <h5 class="card-title">Card title</h5>
-
-                <p class="card-text">
-                  Some quick example text to build on the card title and make up the bulk of the card's
-                  content.
-                </p>
-                <a href="#" class="card-link">Card link</a>
-                <a href="#" class="card-link">Another link</a>
-              </div>
-            </div><!-- /.card -->
-          </div>
-          <!-- /.col-md-6 -->
-          <div class="col-lg-6">
-            <div class="card">
-              <div class="card-header">
-                <h5 class="m-0">Featured</h5>
-              </div>
-              <div class="card-body">
-                <h6 class="card-title">Special title treatment</h6>
-
-                <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                <a href="#" class="btn btn-primary">Go somewhere</a>
-              </div>
-            </div>
-
-            <div class="card card-primary card-outline">
-              <div class="card-header">
-                <h5 class="m-0">Featured</h5>
-              </div>
-              <div class="card-body">
-                <h6 class="card-title">Special title treatment</h6>
-
-                <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                <a href="#" class="btn btn-primary">Go somewhere</a>
-              </div>
-            </div>
-          </div>
-          <!-- /.col-md-6 -->
-        </div>
         <!-- /.row -->
       </div><!-- /.container-fluid -->
     </div>
@@ -222,27 +171,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <script src="plugins/jqvmap/maps/jquery.vmap.usa.js"></script>
 <!-- jQuery Knob Chart -->
 <script src="plugins/jquery-knob/jquery.knob.min.js"></script>
-<!-- Moment -->
-<script src="plugins/moment/moment.min.js"></script>
-<!-- Chart JS -->
-<script src="gkisu/src/controllers/main-charts.js"></script>
 
-<script>
-
-var myj = jQuery.noConflict();
-
-myj(document).ready(function(){
-  let sermonSchedule = initMainChartsFunction().getTheNearestSermon();
-  let sermonIDArray = new Array();
-
-  for(i=0;i<sermonSchedule.length;i++){
-    sermonIDArray.push(sermonSchedule[i]['sermonID']);
-  };
-  let totalBookingSermons = initMainChartsFunction().getTotalAttendeesRegistered(sermonIDArray);
-
-  initMainChartsFunction().drawDonutChart();
-  
-});
-</script>
 </body>
 </html>
