@@ -1,6 +1,6 @@
 <?php
 ini_set('display_errors', '0');
-include_once($_SERVER['CONTEXT_DOCUMENT_ROOT'] . "/gkisu/src/config/config.php");
+include_once($_SERVER['DOCUMENT_ROOT'] . "/gkisu/src/config/config.php");
 
 function dbconnect()
 {

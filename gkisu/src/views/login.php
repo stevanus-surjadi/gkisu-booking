@@ -1,12 +1,13 @@
 <?php
 date_default_timezone_set("Asia/Krasnoyarsk");
-ini_set('display_errors', '0');
-include_once($_SERVER['CONTEXT_DOCUMENT_ROOT'] . '/gkisu/src/config/config.php');
-include_once(ABS_PATH . "gkisu/src/models/login.inc.php");
+ini_set('display_errors', '1');
+include_once($_SERVER['DOCUMENT_ROOT'] . '/gkisu/src/config/config.php');
+include_once(ABS_PATH . "/gkisu/src/models/login.inc.php");
 
 if(isset($_SESSION)) session_destroy();
 
 if(isset($_POST['actionLogin']) && $_POST['actionLogin'] == 1) {
+  
   $formPassword = $_POST['inputPassword'];
   $formEmail = $_POST['inputEmail'];
   $isUserExist = isUserExist($formEmail);
@@ -22,8 +23,10 @@ if(isset($_POST['actionLogin']) && $_POST['actionLogin'] == 1) {
       $_SESSION['login']['email'] = $formEmail;
       $_SESSION['lastActivity'] = time();
       $_SESSION['timeout'] = 1*60*60;
-      //var_dump($_SESSION);
-      header("Location: http://localhost:8080/gkisu/index.php?arg=main");
+      
+      $location = "http://localhost:8080/gkisuAdminBook/index?arg=main";
+      //echo $location;
+      header("Location: http://localhost:8080/gkisuAdminBook/?arg=main");
     }else{
       $HTMLoutput = "<div class=\"alert alert-danger col-sm-12\" >Wrong username and/or password</div>";
     }
@@ -31,8 +34,9 @@ if(isset($_POST['actionLogin']) && $_POST['actionLogin'] == 1) {
   else{
     $HTMLoutput = "<div class=\"alert alert-danger col-sm-12\" >Wrong username - Not Found</div>";
   }
+  var_dump("end");
 }
-//echo $_SERVER['DOCUMENT_ROOT'];
+
 ?>
 
 <!DOCTYPE html>
@@ -84,7 +88,7 @@ if(isset($_POST['actionLogin']) && $_POST['actionLogin'] == 1) {
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Login Page</h1> | <a href="/gkisu/usrRegister">Register</a>
+            <h1>Login Page</h1> | <a href="<?=ALIAS;?>/home?arg=usrRegister">Register</a>
           </div>
           
         </div>

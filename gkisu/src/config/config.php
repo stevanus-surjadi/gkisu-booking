@@ -8,6 +8,6 @@ define("schema","gkisu_booking");
 //define("dbport",'8889');
 define("dbport",'3306');
 
-define('ABS_PATH',$_SERVER['CONTEXT_DOCUMENT_ROOT']);
-
+define('ABS_PATH',$_SERVER['DOCUMENT_ROOT']);
+define('ALIAS','/gkisuAdminBook');
 ?>

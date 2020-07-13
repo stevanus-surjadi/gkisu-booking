@@ -1,7 +1,7 @@
 <?php
 date_default_timezone_set("Asia/Krasnoyarsk");
 ini_set('display_errors', '1');
-include_once($_SERVER['CONTEXT_DOCUMENT_ROOT'] . '/gkisu/src/config/config.php');
+include_once($_SERVER['DOCUMENT_ROOT'] . '/gkisu/src/config/config.php');
 ?>
 
 <!DOCTYPE html>
@@ -195,7 +195,7 @@ myj('document').ready(function(){
           //alert("success");
           console.log(data);
           if(data==1){
-            let msg = "New Account has been added successfully. Click here to access <a href=\"\/gkisu/\">login</a> page";
+            let msg = "New Account has been added successfully. Click here to access <a href=\"<?=ALIAS;?>\">login</a> page";
             myj('#displayError').hide();
             myj('#displaySuccess').html(msg).show();
           }

@@ -1,13 +1,17 @@
 <?php
+require_once($_SERVER['DOCUMENT_ROOT'] . "/gkisu/src/config/config.php");
 
-if(!isset($_GET['arg'])) $request = $_SERVER['REQUEST_URI'];
+if(!isset($_GET['arg'])) {
+    $request = $_SERVER['REQUEST_URI'];
+}
 else $request = "/" . $_GET['arg'];
 
 //$request = $_SERVER['REQUEST_URI'];
+//echo $request;
 
 switch ($request) {
 
-    case '/gkisu/':
+    case ALIAS .'/' :
         require __DIR__ . "/gkisu/src/views/login.php";
     break;
     case '/main':
@@ -30,6 +34,7 @@ switch ($request) {
         require __DIR__ . '/gkisu/src/inc/logout.inc.php';
     break;
     default:
+        //echo $request;
         http_response_code(404);
         //require __DIR__ . '/views/404';
     break;
