@@ -1,6 +1,6 @@
 <?php
 ini_set('display_errors','1');
-require_once($_SERVER['DOCUMENT_ROOT'] . '/gkisu/src/config/config.php');
+require_once($_SERVER['CONTEXT_DOCUMENT_ROOT'] . '/gkisu/src/config/config.php');
 require_once(ABS_PATH . "/gkisu/src/inc/top.inc.php");
 ?>
 
@@ -17,7 +17,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <!-- Font Awesome -->
   <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
   <!-- iCheck for checkboxes and radio inputs -->
-  <link rel="stylesheet" href="../../plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+  <link rel="stylesheet" href="plugins/icheck-bootstrap/icheck-bootstrap.min.css">
   <!-- Ionicons -->
   <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
   <!-- Tempusdominus Bbootstrap 4 -->
@@ -102,7 +102,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0 text-dark">Starter Page</h1>
+            <h1 class="m-0 text-dark">Dashboard</h1>
           </div><!-- /.col -->
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
@@ -238,6 +238,7 @@ myj(document).ready(function(){
   for(i=0;i<sermonSchedule.length;i++){
     sermonIDArray.push(sermonSchedule[i]['sermonID']);
   };
+  console.log('sermonIDArray', sermonIDArray);
   let totalBookingSermons = initMainChartsFunction().getTotalAttendeesRegistered(sermonIDArray);
 
   initMainChartsFunction().drawDonutChart();

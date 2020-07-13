@@ -55,7 +55,7 @@ function ctrSaveSermonSchedule()
         _bodyData.push( {name:"action", value:_action} );
         myj.ajax({
             type: "POST",
-            url: "/gkisu/src/models/sermon-schedule.inc.php",
+            url: "gkisu/src/models/sermon-schedule.inc.php",
             data:  _bodyData,
             success: function(data){
                 let ajaxMsg = data + " schedules has successfully added";
@@ -73,8 +73,11 @@ function ctrDisplaySermonSchedule()
         "ajax":{
            type: "POST",
            data: {"action":"loadSermonSchedule"},
-           url: "/gkisu/src/models/sermon-schedule.inc.php",
+           url: "gkisu/src/models/sermon-schedule.inc.php",
            dataSrc: function(data) {
+                      if(data == "no data"){
+                        return [];
+                      }
                       return data;
                     },
           dataFilter: function(data) {
@@ -145,7 +148,7 @@ function ctrDeleteSermonSchedule(param1)
           type: 'POST',
           data: _bodyData,
           dataType: "json",
-          url: "/gkisu/src/models/sermon-schedule.inc.php",
+          url: "gkisu/src/models/sermon-schedule.inc.php",
           success: function(data){
             //console.log(data['affectedRows']);
             if(data['affectedRows'] == 1){

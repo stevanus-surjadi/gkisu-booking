@@ -1,6 +1,6 @@
 <?php
 ini_set('display_errors','1');
-require_once($_SERVER['DOCUMENT_ROOT'] . '/gkisu/src/config/config.php');
+require_once($_SERVER['CONTEXT_DOCUMENT_ROOT'] . '/gkisu/src/config/config.php');
 require_once(ABS_PATH . "/gkisu/src/inc/top.inc.php");
 ?>
 
@@ -17,7 +17,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <!-- Font Awesome -->
   <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
   <!-- iCheck for checkboxes and radio inputs -->
-  <link rel="stylesheet" href="../../plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+  <link rel="stylesheet" href="plugins/icheck-bootstrap/icheck-bootstrap.min.css">
   <!-- Ionicons -->
   <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
   <!-- Tempusdominus Bbootstrap 4 -->
@@ -109,7 +109,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
           </div><!-- /.col -->
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="/main">Home</a></li>
+              <li class="breadcrumb-item"><a href="/?arg=main">Home</a></li>
               <li class="breadcrumb-item active">Sermon Schedule</li>
             </ol>
           </div><!-- /.col -->
@@ -231,18 +231,21 @@ scratch. This page gets rid of all links and provides the needed markup only.
 var myj = jQuery.noConflict();
 
 
-
 myj(document).ready(function(){
 
-  myj(document).on('show.bs.modal',function(){
+  myj('document').on('show.bs.modal',function(){
+    
     myj('#create-schedule-modal').modal('handleUpdate');
   })
 
+  myj(window).on('resize',function() { 
+    dtSermonSchedule.columns.adjust().draw();
+    console.log('adjusted');
+  });
+
   //=DATATABLES EVENTS=//
   
-  myj(window).on('resize', function() { 
-    dtSermonSchedule.columns.adjust().draw();
-  });
+
 
   let dtSermonSchedule = initSermonScheduleFunction().displaySermonSchedule();
 

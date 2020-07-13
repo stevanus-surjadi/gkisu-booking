@@ -11,7 +11,7 @@ function ctrGetTheNearestSermon()
         type: "POST",
         async: false,
         data: { "todayDate":todayDate, "action":"getNearestSermonDate" },
-        url: "/gkisu/src/models/main-charts.inc.php",
+        url: "gkisu/src/models/main-charts.inc.php",
         dataType: "json",
         complete:function(data){
             ajaxResult = JSON.parse(data.responseText);
@@ -28,7 +28,7 @@ function ctrGetTotalAttendeesRegistered(sermonID)
     myj.ajax({
         type: "POST",
         data: { "action":"getTotalAttendeedRegistered", "sermonID":sermonID},
-        url: "/gkisu/src/models/main-charts.inc.php",
+        url: "gkisu/src/models/main-charts.inc.php",
         dataType: "json",
         complete:function(data){
             console.log(data)
@@ -38,7 +38,7 @@ function ctrGetTotalAttendeesRegistered(sermonID)
     return ajaxResult;
 }
 
-function ctrDrawDonutChart()
+function ctrDrawDonutChart(labelXarray, dataArray)
 {
     let colors = ['#007bff','#28a745','#333333','#c3e6cb','#dc3545','#6c757d'];
 
@@ -53,7 +53,7 @@ function ctrDrawDonutChart()
           {
             backgroundColor: colors.slice(2,3),
             borderWidth: 1,
-            data: [7, 543]
+            data: dataArray
           }
         ]
     };
@@ -82,8 +82,8 @@ function initMainChartsFunction() {
             return ctrGetTotalAttendeesRegistered(sermonID);
         },
 
-        drawDonutChart: function(){
-            return ctrDrawDonutChart();
+        drawDonutChart: function(labelXarray, dataArray){
+            return ctrDrawDonutChart(labelXarray, dataArray);
         }
     }
 }

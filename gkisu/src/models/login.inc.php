@@ -1,6 +1,6 @@
 <?php
-ini_set('display_errors', '1');
-include_once($_SERVER['DOCUMENT_ROOT']. "/gkisu/src/models/db.inc.php");
+ini_set('display_errors', '0');
+include_once($_SERVER['CONTEXT_DOCUMENT_ROOT']. "/gkisu/src/models/db.inc.php");
 
 
 function isUserExist($email){

@@ -1,7 +1,7 @@
 <?php
 date_default_timezone_set("Asia/Krasnoyarsk");
 ini_set('display_errors', '1');
-include_once($_SERVER['DOCUMENT_ROOT'] . '/gkisu/src/config/config.php');
+include_once($_SERVER['CONTEXT_DOCUMENT_ROOT'] . '/gkisu/src/config/config.php');
 ?>
 
 <!DOCTYPE html>
@@ -14,13 +14,13 @@ include_once($_SERVER['DOCUMENT_ROOT'] . '/gkisu/src/config/config.php');
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <!-- Font Awesome -->
-  <link rel="stylesheet" href="../../plugins/fontawesome-free/css/all.min.css">
+  <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
   <!-- Ionicons -->
   <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
   <!-- icheck bootstrap -->
-  <link rel="stylesheet" href="../../plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+  <link rel="stylesheet" href="plugins/icheck-bootstrap/icheck-bootstrap.min.css">
   <!-- Theme style -->
-  <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
+  <link rel="stylesheet" href="dist/css/adminlte.min.css">
   <!-- Google Font: Source Sans Pro -->
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
 </head>
@@ -119,11 +119,11 @@ include_once($_SERVER['DOCUMENT_ROOT'] . '/gkisu/src/config/config.php');
 <!-- /.register-box -->
 
 <!-- jQuery -->
-<script src="../../../../plugins/jquery/jquery.min.js"></script>
+<script src="plugins/jquery/jquery.min.js"></script>
 <!-- Bootstrap 4 -->
-<script src="../../../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <!-- AdminLTE App -->
-<script src="../../../../dist/js/adminlte.min.js"></script>
+<script src="dist/js/adminlte.min.js"></script>
 
 <script>
 
@@ -189,18 +189,19 @@ myj('document').ready(function(){
       //console.log(_bodydata);
       myj.ajax({
         type: "POST",
-        url: "/gkisu/src/models/register.inc.php",
+        url: "gkisu/src/models/register.inc.php",
         data:  _bodydata,
         success: function(data){
           //alert("success");
-          //alert(data);
+          console.log(data);
           if(data==1){
-            let msg = "New Account has been added successfully. Click here to access <a href=\"\/\">login</a> page";
+            let msg = "New Account has been added successfully. Click here to access <a href=\"\/gkisu/\">login</a> page";
+            myj('#displayError').hide();
             myj('#displaySuccess').html(msg).show();
           }
           else if(data==0){
             let msg = "Duplicate account. User already exist";
-            myj('#displayError').html(msg).show();
+            myj('#displayError').html(msg).show();s
           }
         },
         error: function(XMLHttpRequest, textStatus, errorThrown){

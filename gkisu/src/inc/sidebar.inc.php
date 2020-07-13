@@ -8,7 +8,7 @@
     </a>
     <ul class="nav nav-treeview">
         <li class="nav-item " id="userRegistration">
-            <a href="/usrRegisterLogin" class="nav-link">
+            <a href="index.php?arg=usrRegisterLogin" class="nav-link">
                 <i class="fas fa-genderless nav-icon"></i>
                 <p>User Registration</p>
             </a>
@@ -26,7 +26,7 @@
     </a>
     <ul class="nav nav-treeview">
         <li class="nav-item" id="setupSermonSchedule">
-            <a href="/sermonSchedule" class="nav-link">
+            <a href="index.php?arg=sermonSchedule" class="nav-link">
                 <i class="fas fa-genderless nav-icon"></i>
                 <p>Sermon Schedule</p>
             </a>
@@ -44,14 +44,14 @@
     </a>
     <ul class="nav nav-treeview">
         <li class="nav-item" id="bookValidation">
-            <a href="/bookValidation" class="nav-link">
+            <a href="index.php?arg=bookValidation" class="nav-link">
                 <i class="fas fa-genderless nav-icon"></i>
                 <p>Booking Validation</p>
             </a>
         </li>
     </ul>
 </li>
-<script src="../../plugins/jquery/jquery.min.js"></script>
+<script src="plugins/jquery/jquery.min.js"></script>
 <script>
 
 var myj=jQuery.noConflict();

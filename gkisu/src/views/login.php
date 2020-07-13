@@ -1,16 +1,17 @@
 <?php
 date_default_timezone_set("Asia/Krasnoyarsk");
-ini_set('display_errors', '1');
-include_once($_SERVER['DOCUMENT_ROOT'] . '/gkisu/src/config/config.php');
-require_once(ABS_PATH . "/gkisu/src//models/login.inc.php");
+ini_set('display_errors', '0');
+include_once($_SERVER['CONTEXT_DOCUMENT_ROOT'] . '/gkisu/src/config/config.php');
+include_once(ABS_PATH . "gkisu/src/models/login.inc.php");
 
 if(isset($_SESSION)) session_destroy();
 
 if(isset($_POST['actionLogin']) && $_POST['actionLogin'] == 1) {
   $formPassword = $_POST['inputPassword'];
   $formEmail = $_POST['inputEmail'];
+  $isUserExist = isUserExist($formEmail);
 
-  if(isUserExist($formEmail)==1){
+  if($isUserExist==1){
     $dbPasswd = getPasswd($formEmail);
     $dbSalt = getSalt($formEmail);
     $dbName = getName($formEmail);
@@ -21,7 +22,8 @@ if(isset($_POST['actionLogin']) && $_POST['actionLogin'] == 1) {
       $_SESSION['login']['email'] = $formEmail;
       $_SESSION['lastActivity'] = time();
       $_SESSION['timeout'] = 1*60*60;
-      header("Location: http://localhost:8080/main");
+      //var_dump($_SESSION);
+      header("Location: http://localhost:8080/gkisu/index.php?arg=main");
     }else{
       $HTMLoutput = "<div class=\"alert alert-danger col-sm-12\" >Wrong username and/or password</div>";
     }
@@ -43,11 +45,11 @@ if(isset($_POST['actionLogin']) && $_POST['actionLogin'] == 1) {
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <!-- Font Awesome -->
-  <link rel="stylesheet" href="../../plugins/fontawesome-free/css/all.min.css">
+  <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
   <!-- Ionicons -->
   <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
   <!-- overlayScrollbars -->
-  <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
+  <link rel="stylesheet" href="dist/css/adminlte.min.css">
   <!-- Google Font: Source Sans Pro -->
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
 </head>
@@ -60,8 +62,8 @@ if(isset($_POST['actionLogin']) && $_POST['actionLogin'] == 1) {
   <!-- Main Sidebar Container -->
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
-    <a href="../../index3.html" class="brand-link">
-      <img src="../../dist/img/AdminLTELogo.png"
+    <a href="index3.html" class="brand-link">
+      <img src="dist/img/AdminLTELogo.png"
            alt="AdminLTE Logo"
            class="brand-image img-circle elevation-3"
            style="opacity: .8">
@@ -82,7 +84,7 @@ if(isset($_POST['actionLogin']) && $_POST['actionLogin'] == 1) {
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Login Page</h1> | <a href="/usrregister">Register</a>
+            <h1>Login Page</h1> | <a href="/gkisu/usrRegister">Register</a>
           </div>
           
         </div>
@@ -156,13 +158,13 @@ if(isset($_POST['actionLogin']) && $_POST['actionLogin'] == 1) {
 <!-- ./wrapper -->
 
 <!-- jQuery -->
-<script src="../../plugins/jquery/jquery.min.js"></script>
+<script src="plugins/jquery/jquery.min.js"></script>
 <!-- Bootstrap 4 -->
-<script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <!-- AdminLTE App -->
-<script src="../../dist/js/adminlte.min.js"></script>
+<script src="dist/js/adminlte.min.js"></script>
 <!-- AdminLTE for demo purposes -->
-<script src="../../dist/js/demo.js"></script>
+<script src="dist/js/demo.js"></script>
 
 <script>
 
