@@ -37,12 +37,16 @@ async function ctrGetTotalAttendeesRegistered(sermonID)
     {
         console.log(error);
     }
+
     return ajaxResult;
 }
 
-function ctrDrawDonutChart(labelXarray, dataArray)
+function ctrDrawDonutChart(ChartData,index)
 {
     let colors = ['#007bff','#28a745','#333333','#c3e6cb','#dc3545','#6c757d'];
+
+    let capacity = (parseInt(ChartData[index]['capacity']));
+    let attendees = ChartData[index]['totalAttendees'];
 
     let donutOptions = {
         cutoutPercentage: 50, 
@@ -55,7 +59,7 @@ function ctrDrawDonutChart(labelXarray, dataArray)
           {
             backgroundColor: colors.slice(2,3),
             borderWidth: 1,
-            data: dataArray
+            data: [ attendees, (capacity - attendees) ]
           }
         ]
     };
@@ -83,8 +87,8 @@ function initMainChartsFunction() {
             return ctrGetTotalAttendeesRegistered(sermonID);
         },
 
-        drawDonutChart: function(labelXarray, dataArray){
-            return ctrDrawDonutChart(labelXarray, dataArray);
+        drawDonutChart: function(ChartData,index){
+            return ctrDrawDonutChart(ChartData,index);
         }
     }
 }

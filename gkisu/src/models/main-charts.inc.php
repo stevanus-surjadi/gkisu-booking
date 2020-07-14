@@ -33,7 +33,7 @@ function getTotalAttendeesRegistered($dbcon)
     $types = str_repeat('s',count($sermonID));
     $sermonIDsql = implode(',',$sermonID);
 
-    $sql = "SELECT `sermonID`, sum(`pax`) as TotalAttendees FROM dt_informationBooking WHERE `sermonID` IN ($in) GROUP BY `sermonID`";
+    $sql = "SELECT `sermonID`, sum(`pax`) as totalAttendees FROM dt_informationBooking WHERE `sermonID` IN ($in) GROUP BY `sermonID`";
 
     try{
         $statement = $dbcon->prepare($sql);
@@ -51,19 +51,25 @@ function getTotalAttendeesRegistered($dbcon)
     if($statement->affected_rows > 0) 
     {
         $outparse = $result->fetch_all(MYSQLI_ASSOC);
-        
+        for($i=0;$i<count($sermonID);$i++){
+            for($j=0;$j<count($outparse);$j++){
+                if($sermonID[$i]['sermonID'] === $outparse[$j]['sermonID'])
+                {
+                    $sermonID[$i]['totalAttendees'] = $outparse[$j]['totalAttendees'];
+                    break;
+                }
+            }
+        }
     }
     else if($statement->affected_rows == 0) {
         for($i=0;$i<count($sermonID);$i++)
         {
-            $sermonID[$i]["qtyBooking"] = 0;
+            $sermonID[$i]["totalAttendees"] = 0;
         }
     }
-    var_dump($sermonID);
     $statement->free_result();
     $statement->close();
-
-    return json_encode($outparse);
+    return json_encode($sermonID);
 }
 
 if(isset($_POST['action'])){

@@ -122,7 +122,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
           <div class="col-lg-6">
             <div class="card card-primary card-outline collapse" id="card1">
               <div class="card-header">
-                <div class="card-title" id="chartBookingTitle1">Chart 1 - Coming Soon</div>
+                <div class="card-title" id="chartBookingTitle0">Chart 0 - Coming Soon</div>
               </div>
               <div class="card-body">
                 <!--DONUT CHART 1 IS HERE -->
@@ -132,7 +132,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
             <div class="card card-primary card-outline collapse" id="card3">
               <div class="card-header">
-                <div class="card-title" id="chartBookingTitle3">Chart 3 - Coming Soon</div>
+                <div class="card-title" id="chartBookingTitle2">Chart 2 - Coming Soon</div>
               </div>
               <div class="card-body">
                 <canvas id="chartBooking3"></canvas>
@@ -143,7 +143,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
           <div class="col-lg-6">
             <div class="card card-primary card-outline collapse" id="card2">
               <div class="card-header">
-                <div class="card-title" id="chartBookingTitle2">Chart 2 - Coming Soon</div>
+                <div class="card-title" id="chartBookingTitle1">Chart 1 - Coming Soon</div>
               </div>
               <div class="card-body">
                 <canvas id="chartBooking2"></canvas>
@@ -152,7 +152,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
             <div class="card card-primary card-outline collapse" id="card4">
               <div class="card-header">
-                <div class="card-title">Chart 4 - Coming Soon</div>
+                <div class="card-title" id="chartBookingTitle3">Chart 3 - Coming Soon</div>
               </div>
               <div class="card-body">
                 <canvas id="chartBooking4"></canvas>
@@ -166,7 +166,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
           <div class="col-lg-6">
             <div class="card card-outline" id="card5">
               <div class="card-header">
-                <div class="card-title">Chart 5 - Coming Soon</div>
+                <div class="card-title" id="chartSummaryTitle0">Chart Summary 0 - Coming Soon</div>
               </div>
               <div class="card-body">
                 <canvas id="chartSummary1"></canvas>
@@ -177,7 +177,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
           <div class="col-lg-6">
             <div class="card card-outline" id="card6">
               <div class="card-header">
-                <div class="card-title">Chart 5 - Coming Soon</div>
+                <div class="card-title" id="chartSummaryTitle1">Chart Summary 1 - Coming Soon</div>
               </div>
               <div class="card-body">
                 <canvas id="chartSummary2"></canvas>
@@ -269,22 +269,19 @@ myj(document).ready(function(){
 */    
     myj.when(initMainChartsFunction().getTotalAttendeesRegistered(sermonSchedule))
     .done(function(data){
-      totalQtyBookingEachSermons = data;
-      console.log("totalQTYbook",totalQtyBookingEachSermons);
+      sermonScheduleGraph = data;
+      //console.log("totalQTYbook",sermonScheduleGraph);
       
       
-      
-      initMainChartsFunction().drawDonutChart();
+      for(let i=0;i<sermonScheduleGraph.length;i++){
+        initMainChartsFunction().drawDonutChart(sermonScheduleGraph,i);
+        let dt = moment(data[i]['sermonDateTime'],"YYYY-MM-DD HH:mm:ss").format("D-MMM-YYYY HH:mm");
+        let title = "Attendees Booking Chart " + data[i]['sermonName'] + " <br> " + dt;
+        myj('#chartBookingTitle'+i).html(title);
+      }
     });
   });
-  
-
-
-  
-
   //console.log('sermonIDArray', sermonIDArray);
-
-  
 });
 </script>
 </body>
