@@ -44,7 +44,7 @@ function ctrDrawDonutChart(labelXarray, dataArray)
 
     let donutOptions = {
         cutoutPercentage: 50, 
-        legend: {position:'bottom', padding:5, labels: {pointStyle:'square', usePointStyle:true}}
+        legend: {position:'bottom', padding:5, labels: {pointStyle:'circle', usePointStyle:true}}
     };
 
     var chDonutData1 = {
@@ -69,7 +69,6 @@ function ctrDrawDonutChart(labelXarray, dataArray)
 }
 
 let chart01Title = "Booking Chart - Sermon";
-
 
 function initMainChartsFunction() {
 

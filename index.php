@@ -4,7 +4,7 @@ require_once($_SERVER['DOCUMENT_ROOT'] . "/gkisu/src/config/config.php");
 if(!isset($_GET['arg'])) {
     $request = $_SERVER['REQUEST_URI'];
 }
-else $request = "/" . $_GET['arg'];
+else $request = "/" . base64_decode($_GET['arg']);
 
 //$request = $_SERVER['REQUEST_URI'];
 //echo $request;

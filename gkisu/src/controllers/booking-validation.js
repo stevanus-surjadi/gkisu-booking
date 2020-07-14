@@ -8,7 +8,7 @@ function ctrLoadSelectSermonDateTime(paramDate)
         myj(this).data('placeholder');
       },
       ajax: {
-        url: "/gkisu/src/models/booking-validation.inc.php",
+        url: "gkisu/src/models/booking-validation.inc.php",
         type: "POST",
         dataType: "json",
         delay: 250,
@@ -56,7 +56,7 @@ function ctrLoadDataTableBookingConfirmation(sermonData)
                     "sermonID":sermonData[0]['sermonID'],
                     "sermonDateTime":sermonData[0]['sermonDateTime']
                 },
-           url: "/gkisu/src/models/booking-validation.inc.php",
+           url: "gkisu/src/models/booking-validation.inc.php",
            dataSrc: function(data) {
                       return data;
                     },

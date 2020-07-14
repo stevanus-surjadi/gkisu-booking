@@ -8,7 +8,7 @@
     </a>
     <ul class="nav nav-treeview">
         <li class="nav-item " id="userRegistration">
-            <a href="index.php?arg=usrRegisterLogin" class="nav-link">
+            <a href="<?=ALIAS?>/?arg=<?=base64_encode("usrRegisterLogin");?>" class="nav-link">
                 <i class="fas fa-genderless nav-icon"></i>
                 <p>User Registration</p>
             </a>
@@ -26,7 +26,7 @@
     </a>
     <ul class="nav nav-treeview">
         <li class="nav-item" id="setupSermonSchedule">
-            <a href="index.php?arg=sermonSchedule" class="nav-link">
+            <a href="<?=ALIAS?>/?arg=<?=base64_encode("sermonSchedule");?>" class="nav-link">
                 <i class="fas fa-genderless nav-icon"></i>
                 <p>Sermon Schedule</p>
             </a>
@@ -44,7 +44,7 @@
     </a>
     <ul class="nav nav-treeview">
         <li class="nav-item" id="bookValidation">
-            <a href="index.php?arg=bookValidation" class="nav-link">
+            <a href="<?=ALIAS?>/?arg=<?=base64_encode("bookValidation");?>" class="nav-link">
                 <i class="fas fa-genderless nav-icon"></i>
                 <p>Booking Validation</p>
             </a>

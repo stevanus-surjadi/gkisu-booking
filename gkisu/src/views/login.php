@@ -1,6 +1,6 @@
 <?php
 date_default_timezone_set("Asia/Krasnoyarsk");
-ini_set('display_errors', '1');
+ini_set('display_errors', '0');
 include_once($_SERVER['DOCUMENT_ROOT'] . '/gkisu/src/config/config.php');
 include_once(ABS_PATH . "/gkisu/src/models/login.inc.php");
 
@@ -23,10 +23,7 @@ if(isset($_POST['actionLogin']) && $_POST['actionLogin'] == 1) {
       $_SESSION['login']['email'] = $formEmail;
       $_SESSION['lastActivity'] = time();
       $_SESSION['timeout'] = 1*60*60;
-      
-      $location = "http://localhost:8080/gkisuAdminBook/index?arg=main";
-      //echo $location;
-      header("Location: http://localhost:8080/gkisuAdminBook/?arg=main");
+      header("Location: http://localhost:8080".ALIAS."/?arg=". base64_encode("main"). " ");
     }else{
       $HTMLoutput = "<div class=\"alert alert-danger col-sm-12\" >Wrong username and/or password</div>";
     }
@@ -34,7 +31,6 @@ if(isset($_POST['actionLogin']) && $_POST['actionLogin'] == 1) {
   else{
     $HTMLoutput = "<div class=\"alert alert-danger col-sm-12\" >Wrong username - Not Found</div>";
   }
-  var_dump("end");
 }
 
 ?>
