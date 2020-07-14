@@ -251,8 +251,8 @@ myj(document).ready(function(){
   let sermonSchedule = initMainChartsFunction().getTheNearestSermon();
   
   let sermonQty = typeof sermonSchedule === "undefined" ? 0 : sermonSchedule.size();
-  
-  //console.log(sermonSchedule);
+
+  console.log(sermonSchedule);
 
   for(index=1;index<=sermonQty;index++){
     myj('#card'+index).show();

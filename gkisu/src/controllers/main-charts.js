@@ -11,15 +11,12 @@ function ctrGetTheNearestSermon()
         type: "POST",
         data: { "todayDate":todayDate, "action":"getNearestSermonDate" },
         url: "gkisu/src/models/main-charts.inc.php",
-        dataType: "json",
+        dataType: "json"
     })
     .done(function(data){
         console.log(data);
-    })
-    .fail(function(xhr){
-
+        return data;
     });
-    return ajaxResult;
 }
 
 function ctrGetTotalAttendeesRegistered(sermonID)
