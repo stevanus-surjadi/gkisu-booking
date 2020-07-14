@@ -120,57 +120,72 @@ scratch. This page gets rid of all links and provides the needed markup only.
       <div class="container-fluid">
         <div class="row">
           <div class="col-lg-6">
-            <div class="card">
+            <div class="card card-primary card-outline collapse" id="card1">
               <div class="card-header">
-                <div class="card-title id=chartBookingTitle1"></div>
+                <div class="card-title" id="chartBookingTitle1">Chart 1 - Coming Soon</div>
               </div>
               <div class="card-body">
+                <!--DONUT CHART 1 IS HERE -->
                 <canvas id="chartBooking1"></canvas>
               </div>
             </div>
 
-            <div class="card card-primary card-outline">
+            <div class="card card-primary card-outline collapse" id="card3">
+              <div class="card-header">
+                <div class="card-title" id="chartBookingTitle3">Chart 3 - Coming Soon</div>
+              </div>
               <div class="card-body">
-                <h5 class="card-title">Card title</h5>
-
-                <p class="card-text">
-                  Some quick example text to build on the card title and make up the bulk of the card's
-                  content.
-                </p>
-                <a href="#" class="card-link">Card link</a>
-                <a href="#" class="card-link">Another link</a>
+                <canvas id="chartBooking3"></canvas>
               </div>
             </div><!-- /.card -->
           </div>
           <!-- /.col-md-6 -->
           <div class="col-lg-6">
-            <div class="card">
+            <div class="card card-primary card-outline collapse" id="card2">
               <div class="card-header">
-                <h5 class="m-0">Featured</h5>
+                <div class="card-title" id="chartBookingTitle2">Chart 2 - Coming Soon</div>
               </div>
               <div class="card-body">
-                <h6 class="card-title">Special title treatment</h6>
-
-                <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                <a href="#" class="btn btn-primary">Go somewhere</a>
+                <canvas id="chartBooking2"></canvas>
               </div>
             </div>
 
-            <div class="card card-primary card-outline">
+            <div class="card card-primary card-outline collapse" id="card4">
               <div class="card-header">
-                <h5 class="m-0">Featured</h5>
+                <div class="card-title">Chart 4 - Coming Soon</div>
               </div>
               <div class="card-body">
-                <h6 class="card-title">Special title treatment</h6>
-
-                <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                <a href="#" class="btn btn-primary">Go somewhere</a>
+                <canvas id="chartBooking4"></canvas>
               </div>
             </div>
           </div>
           <!-- /.col-md-6 -->
         </div>
         <!-- /.row -->
+        <div class="row">
+          <div class="col-lg-6">
+            <div class="card card-outline" id="card5">
+              <div class="card-header">
+                <div class="card-title">Chart 5 - Coming Soon</div>
+              </div>
+              <div class="card-body">
+                <canvas id="chartSummary1"></canvas>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-6">
+            <div class="card card-outline" id="card6">
+              <div class="card-header">
+                <div class="card-title">Chart 5 - Coming Soon</div>
+              </div>
+              <div class="card-body">
+                <canvas id="chartSummary2"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+
       </div><!-- /.container-fluid -->
     </div>
     <!-- /.content -->
@@ -232,13 +247,24 @@ scratch. This page gets rid of all links and provides the needed markup only.
 var myj = jQuery.noConflict();
 
 myj(document).ready(function(){
+  
   let sermonSchedule = initMainChartsFunction().getTheNearestSermon();
+  
+  let sermonQty = typeof sermonSchedule === "undefined" ? 0 : sermonSchedule.size();
+  
+  //console.log(sermonSchedule);
+
+  for(index=1;index<=sermonQty;index++){
+    myj('#card'+index).show();
+  }
+
   let sermonIDArray = new Array();
 
-  for(i=0;i<sermonSchedule.length;i++){
+  for(i=0;i<sermonQty;i++){
     sermonIDArray.push(sermonSchedule[i]['sermonID']);
   };
-  console.log('sermonIDArray', sermonIDArray);
+
+  //console.log('sermonIDArray', sermonIDArray);
   let totalBookingSermons = initMainChartsFunction().getTotalAttendeesRegistered(sermonIDArray);
 
   initMainChartsFunction().drawDonutChart();

@@ -3,8 +3,6 @@ ini_set('display_errors','1');
 require_once($_SERVER['DOCUMENT_ROOT'] . "/gkisu/src/config/config.php");
 require_once(ABS_PATH . "/gkisu/src/models/db.inc.php");
 
-var_dump($_POST);
-
 function getNearestSermonDate($dbcon)
 {
     $phpTodayDate = $_POST['todayDate'];
@@ -34,7 +32,7 @@ function getTotalAttendeedRegistered($dbcon)
     $in = str_repeat('?',count($sermonID)-1) . '?';
     $types = str_repeat('s',count($sermonID));
     $sermonIDsql = implode(',',$sermonID);
-    print_r($sermonIDsql);
+    //print_r($sermonIDsql);
 
     $sql = "SELECT `sermonID`, sum(`pax`) as TotalAttendees FROM dt_informationBooking WHERE `sermonID` IN ($in) GROUP BY `sermonID`";
 

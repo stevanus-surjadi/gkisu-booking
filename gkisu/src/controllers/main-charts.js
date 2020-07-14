@@ -5,25 +5,25 @@ function ctrGetTheNearestSermon()
     let mm = dt.getMonth()+1;
     let yyyy = dt.getFullYear();
     let todayDate = yyyy+"-"+mm+"-"+dd;
-    let ajaxResult = "";
+    let ajaxResult;
     
     myj.ajax({
         type: "POST",
-        async: false,
         data: { "todayDate":todayDate, "action":"getNearestSermonDate" },
         url: "gkisu/src/models/main-charts.inc.php",
         dataType: "json",
-        complete:function(data){
-            ajaxResult = JSON.parse(data.responseText);
-        }
+    })
+    .done(function(data){
+        console.log(data);
+    })
+    .fail(function(xhr){
+
     });
-    //console.log(ajaxResult);
     return ajaxResult;
 }
 
 function ctrGetTotalAttendeesRegistered(sermonID)
 {
-    console.log("getTotalAttendeesRegistered",sermonID);
     let ajaxResult = "";
     myj.ajax({
         type: "POST",
@@ -31,7 +31,6 @@ function ctrGetTotalAttendeesRegistered(sermonID)
         url: "gkisu/src/models/main-charts.inc.php",
         dataType: "json",
         complete:function(data){
-            console.log(data)
             if(!typeof data.responseText === "undefined") ajaxResult = JSON.parse(data.responseText);
         }
     });
