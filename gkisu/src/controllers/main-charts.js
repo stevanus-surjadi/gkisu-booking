@@ -1,36 +1,42 @@
-function ctrGetTheNearestSermon()
+async function ctrGetTheNearestSermon()
 {
     let dt = new Date();
     let dd = dt.getDate();
     let mm = dt.getMonth()+1;
     let yyyy = dt.getFullYear();
     let todayDate = yyyy+"-"+mm+"-"+dd;
-    let ajaxResult;
-    
-    myj.ajax({
-        type: "POST",
-        data: { "todayDate":todayDate, "action":"getNearestSermonDate" },
-        url: "gkisu/src/models/main-charts.inc.php",
-        dataType: "json"
-    })
-    .done(function(data){
-        console.log(data);
-        return data;
-    });
+    let ajaxResult 
+    try{
+        ajaxResult = await myj.ajax({
+            type: "POST",
+            data: { "todayDate":todayDate, "action":"getNearestSermonDate" },
+            url: "gkisu/src/models/main-charts.inc.php",
+            dataType: "json"
+        });
+    }
+    catch(error)
+    {
+        console.log(error);
+    }
+    return ajaxResult;
 }
 
-function ctrGetTotalAttendeesRegistered(sermonID)
+async function ctrGetTotalAttendeesRegistered(sermonID)
 {
-    let ajaxResult = "";
-    myj.ajax({
-        type: "POST",
-        data: { "action":"getTotalAttendeedRegistered", "sermonID":sermonID},
-        url: "gkisu/src/models/main-charts.inc.php",
-        dataType: "json",
-        complete:function(data){
-            if(!typeof data.responseText === "undefined") ajaxResult = JSON.parse(data.responseText);
-        }
-    });
+    //console.log("jquery get attendees");
+    let ajaxResult;
+    try{
+        ajaxResult = await myj.ajax({
+            type: "POST",
+            data: { "action":"getTotalAttendeesRegistered", "sermonID":sermonID},
+            url: "gkisu/src/models/main-charts.inc.php",
+            dataType: "json"
+        });
+    }
+    catch (error)
+    {
+        console.log(error);
+    }
     return ajaxResult;
 }
 

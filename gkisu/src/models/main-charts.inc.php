@@ -26,13 +26,12 @@ function getNearestSermonDate($dbcon)
     return json_encode($outparse);
 }
 
-function getTotalAttendeedRegistered($dbcon)
+function getTotalAttendeesRegistered($dbcon)
 {
     $sermonID = $_POST['sermonID'];
     $in = str_repeat('?',count($sermonID)-1) . '?';
     $types = str_repeat('s',count($sermonID));
     $sermonIDsql = implode(',',$sermonID);
-    //print_r($sermonIDsql);
 
     $sql = "SELECT `sermonID`, sum(`pax`) as TotalAttendees FROM dt_informationBooking WHERE `sermonID` IN ($in) GROUP BY `sermonID`";
 
@@ -41,15 +40,29 @@ function getTotalAttendeedRegistered($dbcon)
         $statement->bind_param($types, $sermonIDsql);
         $statement->execute();
         $result = $statement->get_result();
+        $affectedRows = $statement->affected_rows;
     }
     catch(Exception $e)
     {
         $errMsg = array( "Errno"=> "{$dbcon->errno}", "Error"=>"{$dbcon->error}" );
         echo $errMsg;
     }
-    $outparse = $result->fetch_all(MYSQLI_ASSOC);
+
+    if($statement->affected_rows > 0) 
+    {
+        $outparse = $result->fetch_all(MYSQLI_ASSOC);
+        
+    }
+    else if($statement->affected_rows == 0) {
+        for($i=0;$i<count($sermonID);$i++)
+        {
+            $sermonID[$i]["qtyBooking"] = 0;
+        }
+    }
+    var_dump($sermonID);
     $statement->free_result();
     $statement->close();
+
     return json_encode($outparse);
 }
 
@@ -62,9 +75,9 @@ if(isset($_POST['action'])){
             $dbcon->close();
             echo $JSONoutput;
         break;
-        case 'getTotalAttendeedRegistered':
+        case 'getTotalAttendeesRegistered':
             $dbcon = dbconnect();
-            $JSONoutput = getTotalAttendeedRegistered($dbcon);
+            $JSONoutput = getTotalAttendeesRegistered($dbcon);
             $dbcon->close();
             echo $JSONoutput;
         break;

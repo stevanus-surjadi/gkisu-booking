@@ -248,26 +248,42 @@ var myj = jQuery.noConflict();
 
 myj(document).ready(function(){
   
-  let sermonSchedule = initMainChartsFunction().getTheNearestSermon();
+  let sermonQty;
+  let sermonSchedule;
+
+  myj.when(initMainChartsFunction().getTheNearestSermon())
+  .done(function(data){
+    sermonSchedule = data;  
+    sermonQty = typeof data === "undefined" ? 0 : data.length;
+
+    for(index=1;index<=sermonQty;index++){
+      myj('#card'+index).show();
+    }
+
+    //GET ALL SERMON ID in 1 VAR
+    let sermonIDArray = new Array();
+/*
+    for(i=0;i<sermonQty;i++){
+      sermonIDArray.push(sermonSchedule[i]['sermonID']);
+    };
+*/    
+    myj.when(initMainChartsFunction().getTotalAttendeesRegistered(sermonSchedule))
+    .done(function(data){
+      totalQtyBookingEachSermons = data;
+      console.log("totalQTYbook",totalQtyBookingEachSermons);
+      
+      
+      
+      initMainChartsFunction().drawDonutChart();
+    });
+  });
   
-  let sermonQty = typeof sermonSchedule === "undefined" ? 0 : sermonSchedule.size();
 
-  console.log(sermonSchedule);
 
-  for(index=1;index<=sermonQty;index++){
-    myj('#card'+index).show();
-  }
-
-  let sermonIDArray = new Array();
-
-  for(i=0;i<sermonQty;i++){
-    sermonIDArray.push(sermonSchedule[i]['sermonID']);
-  };
+  
 
   //console.log('sermonIDArray', sermonIDArray);
-  let totalBookingSermons = initMainChartsFunction().getTotalAttendeesRegistered(sermonIDArray);
 
-  initMainChartsFunction().drawDonutChart();
   
 });
 </script>
