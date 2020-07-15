@@ -119,7 +119,6 @@ function ctrDisplaySermonSchedule()
          "fixedColumns": false,
          "bProcessing": false,
       });
-    console.log(dt);
     return dt;
 }
 

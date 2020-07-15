@@ -39,11 +39,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <!-- Google Font: Source Sans Pro -->
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
 </head>
-<body class="hold-transition sidebar-mini">
+<body class="hold-transition sidebar-mini fixed">
 <div class="wrapper">
 
   <!-- Navbar -->
-  <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+  <nav class="main-header navbar navbar-expand navbar-white navbar-light sticky-top">
     <!-- Left navbar links -->
     <ul class="navbar-nav">
       <li class="nav-item">
@@ -52,7 +52,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     </ul>
     <ul class="navbar-nav ml-auto">
       <li class="nav-item">
-          <a class="nav-link" href="/logout" ><i class="fas fa-power-off"></i>&nbsp;Logout</a>
+          <a class="nav-link" href="<?=ALIAS;?>/?arg=<?=base64_encode("logout");?>" ><i class="fas fa-power-off"></i>&nbsp;Logout</a>
       </li>
     </ul>
 
@@ -173,7 +173,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
               </div>
             </div>
           </div>
-
+        
           <div class="col-lg-6">
             <div class="card card-secondary card-outline" id="card6">
               <div class="card-header">

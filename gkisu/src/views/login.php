@@ -84,7 +84,7 @@ if(isset($_POST['actionLogin']) && $_POST['actionLogin'] == 1) {
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Login Page</h1> | <a href="<?=ALIAS;?>/home?arg=usrRegister">Register</a>
+            <h1>Login Page</h1> | <a href="<?=ALIAS;?>/?arg=<?=base64_encode("usrRegister");?>">Register</a>
           </div>
           
         </div>

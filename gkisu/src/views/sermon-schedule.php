@@ -58,7 +58,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
       <li class="nav-item">
-          <a class="nav-link" href="/logout" ><i class="fas fa-power-off"></i>&nbsp;Logout</a>
+          <a class="nav-link" href="<?=ALIAS;?>/?<?=base64_encode("logout");?>" ><i class="fas fa-power-off"></i>&nbsp;Logout</a>
       </li>
     </ul>
   </nav>
@@ -240,7 +240,6 @@ myj(document).ready(function(){
 
   myj(window).on('resize',function() { 
     dtSermonSchedule.columns.adjust().draw();
-    console.log('adjusted');
   });
 
   //=DATATABLES EVENTS=//
