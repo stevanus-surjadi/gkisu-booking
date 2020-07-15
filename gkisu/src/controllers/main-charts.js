@@ -82,7 +82,6 @@ async function ctrGetTotalAttendeesRegistered(sermonID)
     {
         console.log(error);
     }
-
     return ajaxResult;
 }
 
@@ -119,31 +118,78 @@ function ctrDrawDonutChart(ChartData,index)
     }
 }
 
-function ctrDrawBarGroupChart(ChartData,index,barLabel,barGroupLabel)
+function ctrDrawBarGroupChart(ChartData)
 {
+    let totalAttendees = new Array();
+    let barLabels = new Array();
+
+    for(let i=0;i<ChartData.length;i++){
+        totalAttendees.push(ChartData[i]['totalAttendees']);
+        barLabels.push(ChartData[i]['sermonDate']+" "+ChartData[i]['sermonTime']);
+    }
+    console.log("barLabels: ",barLabels);
+
+
     let barData = {
-        labels: [ barGroupLabel ],
-        datasets:[  { 
-                        label: barLabel[0],
-                        backgroundColor: "",
-                        data: []
-                    },
-                    {
-                        label: barLabel[1],
-                        backgroundColor: "",
-                        data: []
-                    },
-                    {
-                        label: barLabel[2],
-                        backgroundColor: "",
-                        data: []
+        labels: barLabels ,
+        datasets:   [{ 
+                        label: "# of Attendees",
+                        data: totalAttendees,
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.2)',
+                            'rgba(54, 162, 235, 0.2)',
+                            'rgba(255, 206, 86, 0.2)',
+                            'rgba(75, 192, 192, 0.2)',
+                            'rgba(153, 102, 255, 0.2)',
+                            'rgba(255, 159, 64, 0.2)',
+                            'rgba(255, 99, 132, 0.2)',
+                            'rgba(54, 162, 235, 0.2)',
+                            'rgba(255, 206, 86, 0.2)',
+                            'rgba(75, 192, 192, 0.2)',
+                            'rgba(153, 102, 255, 0.2)',
+                            'rgba(255, 159, 64, 0.2)'
+                        ],
+                        borderColor: [
+                            'rgba(255,99,132,1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)',
+                            'rgba(255, 159, 64, 1)',
+                            'rgba(255,99,132,1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)',
+                            'rgba(255, 159, 64, 1)'
+                          ],
+                          borderWidth:1
                     }]
     };
-    let ctx = myj("#myChart");
+
+    let chartOptions = { options: {
+        responsive: false,
+        scales: {
+          xAxes: [{
+            ticks: {
+              maxRotation: 90,
+              minRotation: 80
+            }
+          }],
+          yAxes: [{
+            ticks: {
+              beginAtZero: true
+            }
+          }]
+        }
+      }
+    }
+    let ctx = myj("#chartSummary1");
     if(ctx) {
         new Chart(ctx, {
-            type: 'Bar',
-            data: data
+            type: 'bar',
+            data: barData,
+            options: chartOptions
         });
     }
 }
@@ -171,6 +217,10 @@ function initMainChartsFunction() {
 
         drawDonutChart: function(ChartData,index){
             return ctrDrawDonutChart(ChartData,index);
+        },
+
+        drawBarGroupChart: function(ChartData){
+            return ctrDrawBarGroupChart(ChartData);
         }
     }
 }

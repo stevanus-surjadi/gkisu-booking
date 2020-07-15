@@ -164,7 +164,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <!-- /.row -->
         <div class="row">
           <div class="col-lg-6">
-            <div class="card card-outline" id="card5">
+            <div class="card card-secondary card-outline" id="card5">
               <div class="card-header">
                 <div class="card-title" id="chartSummaryTitle0">Chart Summary 0 - Coming Soon</div>
               </div>
@@ -175,7 +175,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
           </div>
 
           <div class="col-lg-6">
-            <div class="card card-outline" id="card6">
+            <div class="card card-secondary card-outline" id="card6">
               <div class="card-header">
                 <div class="card-title" id="chartSummaryTitle1">Chart Summary 1 - Coming Soon</div>
               </div>
@@ -263,9 +263,6 @@ myj(document).ready(function(){
     myj.when(initMainChartsFunction().getTotalAttendeesRegistered(sermonSchedule))
     .done(function(data){
       sermonScheduleGraph = data;
-      //console.log("totalQTYbook",sermonScheduleGraph);
-      
-      //console.log(sermonScheduleGraph.length);
       for(let i=0;i<sermonScheduleGraph.length;i++){
         initMainChartsFunction().drawDonutChart(sermonScheduleGraph[i],i);
         let dt = moment(data[i]['sermonDateTime'],"YYYY-MM-DD HH:mm:ss").format("D-MMM-YYYY HH:mm");
@@ -273,8 +270,6 @@ myj(document).ready(function(){
         myj('#chartBookingTitle'+i).html(title);
       }
     });
-
-    
   });
   
   myj.when(initMainChartsFunction().getSermonDataForPrevWeeks())
@@ -284,20 +279,13 @@ myj(document).ready(function(){
     myj.when(initMainChartsFunction().getTotalAttendeesRegistered(sermonSchedule))
     .done(function(data){
       sermonCompleteData = data;
-
-      let barLabelArr = new Array();
-      let groupBarLabel = new Array();
-
-      for(let i=0;i<data.length;i++){
-        barLabelArr.push();
-        groupBarLabel.push();
-      }
-
-      let barLabelUniq = "";
-      let groupBarLabelUniq = "";
-
+      console.log("sermonCompleteData: ", sermonCompleteData);
+      let title = "Attendees booking for past sermon services";
+      initMainChartsFunction().drawBarGroupChart(sermonCompleteData);
+      myj('#chartSummaryTitle0').html(title);
     })
   })
+  
 });
 </script>
 </body>

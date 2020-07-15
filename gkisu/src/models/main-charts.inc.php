@@ -55,11 +55,18 @@ function getSermonDataForPrevWeeks($dbcon)
 {
     $phpTodayDate = $_POST['todayDate'];
 
-    $sql = "SELECT * FROM `ms_sermon` WHERE DATE(`sermonDateTIme`) < DATE(?) ORDER BY `sermonDateTime` ASC";
+    $sql = "SELECT 
+                `sermonID`, sermonName, 
+                DATE_FORMAT(DATE(`sermonDateTime`),'%d-%b-%Y') AS sermonDate, 
+                TIME(`sermonDateTime`) AS sermonTime 
+            FROM `ms_sermon` 
+            WHERE DATE(`sermonDateTIme`) BETWEEN DATE_SUB(DATE(?), INTERVAL 30 DAY) AND DATE(?)  
+            ORDER BY STR_TO_DATE(`sermonDate`,'%d-%b-%Y'), STR_TO_DATE(`sermonTime`,'%H:%m:%s') ASC
+            ";
 
     try{
         $statement = $dbcon->prepare($sql);
-        $statement->bind_para('s', $phpTodayDate);
+        $statement->bind_param('ss', $phpTodayDate, $phpTodayDate);
         $statement->execute();
         $result = $statement->get_result();
     }
@@ -77,16 +84,17 @@ function getSermonDataForPrevWeeks($dbcon)
 function getTotalAttendeesRegistered($dbcon)
 {
     $sermonID = $_POST['sermonID'];
-    $in = str_repeat('?',count($sermonID)-1) . ',?';
+    $in = str_repeat('?,',count($sermonID)-1) . '?';
     $types = str_repeat('s',count($sermonID));
     $sermonIDsql = [];
 
+
     for($i=0;$i<count($sermonID);$i++){
         array_push($sermonIDsql,$sermonID[$i]['sermonID']);
-    }
-
+    };
+    
     $sql = "SELECT `sermonID`, sum(`pax`) as totalAttendees FROM dt_informationBooking WHERE `sermonID` IN ($in) GROUP BY `sermonID`";
-
+    
     try{
         $statement = $dbcon->prepare($sql);
         $statement->bind_param($types, implode(',',$sermonIDsql));
@@ -123,7 +131,6 @@ function getTotalAttendeesRegistered($dbcon)
     $statement->close();
     return json_encode($sermonID);
 }
-
 
 if(isset($_POST['action'])){
 
