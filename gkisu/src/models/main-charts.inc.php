@@ -26,18 +26,70 @@ function getNearestSermonDate($dbcon)
     return json_encode($outparse);
 }
 
+function getSermonDataForPrevMonth($dbcon)
+{
+    $phpTodayDate = $_POST['todayDate'];
+
+    $sql = "SELECT * FROM `ms_sermon` WHERE MONTH(`sermonDateTime`) == MONTH(?) ORDER BY `sermonDateTime` ASC";
+
+    try{
+        $statement = $dbcon->prepare($sql);
+        $statement->bind_param('s',$phpTodayDate);
+        $statement->execute();
+        $result = $statement->get_result();
+        $affectedRows = $statement->affected_rows;
+    }
+    catch(Exception $e)
+    {
+        $errMsg = array( "Errno"=> "{$dbcon->errno}", "Error"=>"{$dbcon->error}" );
+        echo $errMsg;
+    }
+    if($affectedRows == 0) $outparse = null;
+    else $outparse = $result->fetch_all(MYSQLI_ASSOC);
+    $statement->free_result();
+    $statement->close();
+    return json_encode($outparse);
+}
+
+function getSermonDataForPrevWeeks($dbcon)
+{
+    $phpTodayDate = $_POST['todayDate'];
+
+    $sql = "SELECT * FROM `ms_sermon` WHERE DATE(`sermonDateTIme`) < DATE(?) ORDER BY `sermonDateTime` ASC";
+
+    try{
+        $statement = $dbcon->prepare($sql);
+        $statement->bind_para('s', $phpTodayDate);
+        $statement->execute();
+        $result = $statement->get_result();
+    }
+    catch(Exception $e)
+    {
+        $errMsg = array( "Errno"=> "{$dbcon->errno}", "Error"=>"{$dbcon->error}" );
+        echo $errMsg;
+    }
+    $outparse = $result->fetch_all(MYSQLI_ASSOC);
+    $statement->free_result();
+    $statement->close();
+    return json_encode($outparse);
+}
+
 function getTotalAttendeesRegistered($dbcon)
 {
     $sermonID = $_POST['sermonID'];
-    $in = str_repeat('?',count($sermonID)-1) . '?';
+    $in = str_repeat('?',count($sermonID)-1) . ',?';
     $types = str_repeat('s',count($sermonID));
-    $sermonIDsql = implode(',',$sermonID);
+    $sermonIDsql = [];
+
+    for($i=0;$i<count($sermonID);$i++){
+        array_push($sermonIDsql,$sermonID[$i]['sermonID']);
+    }
 
     $sql = "SELECT `sermonID`, sum(`pax`) as totalAttendees FROM dt_informationBooking WHERE `sermonID` IN ($in) GROUP BY `sermonID`";
 
     try{
         $statement = $dbcon->prepare($sql);
-        $statement->bind_param($types, $sermonIDsql);
+        $statement->bind_param($types, implode(',',$sermonIDsql));
         $statement->execute();
         $result = $statement->get_result();
         $affectedRows = $statement->affected_rows;
@@ -61,7 +113,7 @@ function getTotalAttendeesRegistered($dbcon)
             }
         }
     }
-    else if($statement->affected_rows == 0) {
+    else if($statement->affected_rows <= 0) {
         for($i=0;$i<count($sermonID);$i++)
         {
             $sermonID[$i]["totalAttendees"] = 0;
@@ -71,6 +123,7 @@ function getTotalAttendeesRegistered($dbcon)
     $statement->close();
     return json_encode($sermonID);
 }
+
 
 if(isset($_POST['action'])){
 
@@ -84,6 +137,18 @@ if(isset($_POST['action'])){
         case 'getTotalAttendeesRegistered':
             $dbcon = dbconnect();
             $JSONoutput = getTotalAttendeesRegistered($dbcon);
+            $dbcon->close();
+            echo $JSONoutput;
+        break;
+        case 'getSermonDataForPrevMonth':
+            $dbcon = dbconnect();
+            $JSONoutput = getSermonDataForPrevMonth($dbcon);
+            $dbcon->close();
+            echo $JSONoutput;
+        break;
+        case 'getSermonDataForPrevWeeks':
+            $dbcon = dbconnect();
+            $JSONoutput = getSermonDataForPrevWeeks($dbcon);
             $dbcon->close();
             echo $JSONoutput;
         break;

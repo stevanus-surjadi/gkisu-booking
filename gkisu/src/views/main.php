@@ -126,7 +126,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
               </div>
               <div class="card-body">
                 <!--DONUT CHART 1 IS HERE -->
-                <canvas id="chartBooking1"></canvas>
+                <canvas id="chartBooking0"></canvas>
               </div>
             </div>
 
@@ -135,7 +135,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <div class="card-title" id="chartBookingTitle2">Chart 2 - Coming Soon</div>
               </div>
               <div class="card-body">
-                <canvas id="chartBooking3"></canvas>
+                <canvas id="chartBooking2"></canvas>
               </div>
             </div><!-- /.card -->
           </div>
@@ -146,7 +146,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <div class="card-title" id="chartBookingTitle1">Chart 1 - Coming Soon</div>
               </div>
               <div class="card-body">
-                <canvas id="chartBooking2"></canvas>
+                <canvas id="chartBooking1"></canvas>
               </div>
             </div>
 
@@ -155,7 +155,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <div class="card-title" id="chartBookingTitle3">Chart 3 - Coming Soon</div>
               </div>
               <div class="card-body">
-                <canvas id="chartBooking4"></canvas>
+                <canvas id="chartBooking3"></canvas>
               </div>
             </div>
           </div>
@@ -260,28 +260,44 @@ myj(document).ready(function(){
       myj('#card'+index).show();
     }
 
-    //GET ALL SERMON ID in 1 VAR
-    let sermonIDArray = new Array();
-/*
-    for(i=0;i<sermonQty;i++){
-      sermonIDArray.push(sermonSchedule[i]['sermonID']);
-    };
-*/    
     myj.when(initMainChartsFunction().getTotalAttendeesRegistered(sermonSchedule))
     .done(function(data){
       sermonScheduleGraph = data;
       //console.log("totalQTYbook",sermonScheduleGraph);
       
-      
+      //console.log(sermonScheduleGraph.length);
       for(let i=0;i<sermonScheduleGraph.length;i++){
-        initMainChartsFunction().drawDonutChart(sermonScheduleGraph,i);
+        initMainChartsFunction().drawDonutChart(sermonScheduleGraph[i],i);
         let dt = moment(data[i]['sermonDateTime'],"YYYY-MM-DD HH:mm:ss").format("D-MMM-YYYY HH:mm");
         let title = "Attendees Booking Chart " + data[i]['sermonName'] + " <br> " + dt;
         myj('#chartBookingTitle'+i).html(title);
       }
     });
+
+    
   });
-  //console.log('sermonIDArray', sermonIDArray);
+  
+  myj.when(initMainChartsFunction().getSermonDataForPrevWeeks())
+  .done(function(data){
+    sermonSchedule = data;
+
+    myj.when(initMainChartsFunction().getTotalAttendeesRegistered(sermonSchedule))
+    .done(function(data){
+      sermonCompleteData = data;
+
+      let barLabelArr = new Array();
+      let groupBarLabel = new Array();
+
+      for(let i=0;i<data.length;i++){
+        barLabelArr.push();
+        groupBarLabel.push();
+      }
+
+      let barLabelUniq = "";
+      let groupBarLabelUniq = "";
+
+    })
+  })
 });
 </script>
 </body>
