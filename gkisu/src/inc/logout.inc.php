@@ -1,7 +1,8 @@
 <?php
 
-require_once($_SERVER['DOCUMENT_ROOT'] . '/gkisu/src/config/config.php');
+//require_once($_SERVER['DOCUMENT_ROOT'] . '/gkisu/src/config/config.php');
 
+require_once("../config/config.php");
 session_start();
 unset($_SESSION['name']);
 unset($_SESSION['isLogin']);

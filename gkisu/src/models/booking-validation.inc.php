@@ -1,7 +1,9 @@
 <?php
 ini_set('display_errors','1');
-require_once($_SERVER['DOCUMENT_ROOT'] . "/gkisu/src/config/config.php");
-require_once(ABS_PATH . "/gkisu/src/models/db.inc.php");
+//require_once($_SERVER['DOCUMENT_ROOT'] . "/gkisu/src/config/config.php");
+//require_once(ABS_PATH . "/gkisu/src/models/db.inc.php");
+require_once("../config/config.php");
+require_once("./db.inc.php");
 
 function transformDateFormat($srcDate)
 {
